@@ -31,6 +31,36 @@ namespace ShoppingCar.Controllers
         }
 
 
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult Register(Member NewMember)
+        {
+            //若模型沒有通過驗證則顯示目前的View
+            if (ModelState.IsValid == false)
+                return View();
+
+            //查詢會員
+            var member = db.Members.Where(m => m.UserId == NewMember.UserId).FirstOrDefault();
+
+            bool is_member = member != null;
+
+            if (is_member)
+            {
+                ViewBag.Message = "此帳號己註冊過";
+                return View();
+            }
+            else
+            {
+                db.Members.Add(NewMember);
+                db.SaveChanges();
+                return RedirectToAction("Login");
+            }
+        }
 
     }
 }
