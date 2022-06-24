@@ -148,6 +148,14 @@ namespace ShoppingCar.Controllers
             return View(orderDetails);
         }
 
+        public ActionResult MemberInfo()
+        {
+            //顯示會員資料
+            string name = User.Identity.Name;
+            var member = db.Members.Where(m => m.UserId == name).ToList();
 
+            return View(member);
+
+        }
     }
 }
