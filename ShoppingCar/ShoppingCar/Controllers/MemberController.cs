@@ -14,7 +14,11 @@ namespace ShoppingCar.Controllers
         private ShoppingCarContext db = new ShoppingCarContext();
         public ActionResult Index()
         {
-            return View();
+            //查詢全部商品
+            var products = db.Products.OrderByDescending(m => m.Id).ToList();
+
+            //使用_LayoutMember
+            return View("..\\Home\\Index", "_LayoutMember", products);
         }
     }
 }
