@@ -78,6 +78,59 @@ namespace ShoppingCar.Controllers
             return RedirectToAction("ShoppingCar");
         }
 
+        public ActionResult PlaceOrder()
+        {
+            if (Is_the_shopping_cart_empty())
+            {
+                //停留在購物車
+                return RedirectToAction("ShoppingCar");
+            }
+            else
+            {
+                //進入訂單頁面
+                return View();
+            }
+        }
 
+        /// <summary>
+        /// 判斷購物車是不是空的
+        /// </summary>
+        /// <returns></returns>
+        bool Is_the_shopping_cart_empty()
+        {
+            string UserId = User.Identity.Name;
+            var OrderDetails = db.OrderDetails.Where(m => m.UserId == UserId && m.IsApproved == "NO").ToList();
+
+            return OrderDetails.Count <= 0;        
+        }
+
+        [HttpPost]
+        public ActionResult PlaceOrder(string fReceiver, string fEmail, string fAddress)
+        {
+            string UserId = User.Identity.Name;
+            //訂單與明細，用GUID來產生關聯
+            string guid = Guid.NewGuid().ToString();
+
+            var OrderDetails = db.OrderDetails.Where(m => m.UserId == UserId && m.IsApproved == "NO").ToList();
+            //將購物車狀態的明細，改成訂單狀態的明細
+            foreach (var item in OrderDetails)
+            {
+                item.OrderGuid = guid;
+                item.IsApproved = "YES";
+            }
+
+            //創建訂單
+            Order order = new Order();
+            order.OrderGuid = guid;
+            order.UserId = UserId;
+            order.Receiver = fReceiver;
+            order.Email = fEmail;
+            order.Address = fAddress;
+            order.Date = DateTime.Now;
+            db.Orders.Add(order);
+
+            db.SaveChanges();
+            return RedirectToAction("OrderList");
+        }
     }
 }
