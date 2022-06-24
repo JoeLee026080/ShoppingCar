@@ -30,6 +30,43 @@ namespace ShoppingCar.Controllers
             return View("Index", products);
         }
 
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        
+        [HttpPost]
+        public ActionResult Login(string UserId, string Pwd)
+        {
+            //查詢會員
+            var member = db.Members.Where(m => m.UserId == UserId && m.Pwd == Pwd).FirstOrDefault();
+
+            bool is_member = member != null;
+
+            //是會員
+            if (is_member)
+            {
+                //紀錄歡迎詞
+                Session["Welcome"] = member.Name + "歡迎光臨";
+                //登入驗證
+                FormsAuthentication.RedirectFromLoginPage(UserId, true);
+                //導向首頁 Index
+                if (member.UserId == "admin")
+                    return RedirectToAction("Index", "Admin");
+                else
+                    return RedirectToAction("Index", "Member");
+            }
+            //非會員
+            else
+            {
+                //通知
+                ViewBag.Massage = "帳號或密碼錯誤";
+                return View();
+            }
+
+
+        }
 
         public ActionResult Register()
         {
