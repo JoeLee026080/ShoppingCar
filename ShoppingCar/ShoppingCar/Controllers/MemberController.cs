@@ -132,5 +132,22 @@ namespace ShoppingCar.Controllers
             db.SaveChanges();
             return RedirectToAction("OrderList");
         }
+
+        public ActionResult OrderList()
+        {
+            string UserId = User.Identity.Name;
+            //訂單清單
+            var orders = db.Orders.Where(m => m.UserId == UserId).OrderByDescending(m => m.Date).ToList();
+            return View(orders);
+        }
+
+        public ActionResult OrderDetail(string fOrderGuid)
+        {
+            //訂單明細
+            var orderDetails = db.OrderDetails.Where(m => m.OrderGuid == fOrderGuid).ToList();
+            return View(orderDetails);
+        }
+
+
     }
 }
