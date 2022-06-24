@@ -35,5 +35,37 @@ namespace ShoppingCar.Controllers
 
             return View(OrderDetails);
         }
+
+        public ActionResult AddCar(string PId)
+        {
+            //購物車加入商品
+            string UserId = User.Identity.Name;
+            var CerrentCarDetail = db.OrderDetails.Where(m => m.UserId == UserId && m.PId == PId && m.IsApproved == "NO").FirstOrDefault();
+
+            bool IsOrder = CerrentCarDetail != null;
+
+            //在購物車中  數量+1
+            if (IsOrder)
+            {
+                CerrentCarDetail.Qty += 1;
+            }
+            //不再購物車中  新增一筆
+            else
+            {
+                var product = db.Products.Where(m => m.PId == PId).FirstOrDefault();
+                OrderDetail OrderDetial = new OrderDetail();
+                OrderDetial.UserId = UserId;
+                OrderDetial.PId = product.PId;
+                OrderDetial.Name = product.Name;
+                OrderDetial.Price = product.Price;
+                OrderDetial.Qty = 1;
+                OrderDetial.IsApproved = "NO";
+                db.OrderDetails.Add(OrderDetial);
+            }
+
+            db.SaveChanges();
+            return RedirectToAction("ShoppingCar");
+
+        }
     }
 }
