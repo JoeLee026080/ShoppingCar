@@ -26,5 +26,14 @@ namespace ShoppingCar.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("index", "Home");
         }
+
+        public ActionResult ShoppingCar()
+        {
+            string UserId = User.Identity.Name;
+            //查詢購物車清單(未核准狀態的明細)
+            var OrderDetails = db.OrderDetails.Where(m => m.UserId == UserId && m.IsApproved == "NO").ToList();
+
+            return View(OrderDetails);
+        }
     }
 }
