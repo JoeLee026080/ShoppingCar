@@ -67,5 +67,17 @@ namespace ShoppingCar.Controllers
             return RedirectToAction("ShoppingCar");
 
         }
+
+        public ActionResult DeleteCar(int Id)
+        {
+            //查詢要刪除的購物車明細
+            var OrderDetail = db.OrderDetails.Where(m => m.Id == Id).FirstOrDefault();
+
+            db.OrderDetails.Remove(OrderDetail);
+            db.SaveChanges();
+            return RedirectToAction("ShoppingCar");
+        }
+
+
     }
 }
