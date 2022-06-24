@@ -20,5 +20,11 @@ namespace ShoppingCar.Controllers
             //使用_LayoutMember
             return View("..\\Home\\Index", "_LayoutMember", products);
         }
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("index", "Home");
+        }
     }
 }
