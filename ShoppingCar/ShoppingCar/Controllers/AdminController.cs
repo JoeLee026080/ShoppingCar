@@ -17,7 +17,8 @@ namespace ShoppingCar.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            return View(db.Products.ToList());
+            var product = db.Products.OrderByDescending(m => m.Id).ToList();
+            return View(product);
         }
 
         // GET: Products/Details/5
