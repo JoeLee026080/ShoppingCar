@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -44,6 +45,9 @@ namespace ShoppingCar.Controllers
 
         public ActionResult AddCar(string PId)
         {
+            if (PId == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
             //購物車加入商品
             string UserId = User.Identity.Name;
             var CerrentCarDetail = db.OrderDetails.Where(m => m.UserId == UserId && m.PId == PId && m.IsApproved == "NO").FirstOrDefault();
