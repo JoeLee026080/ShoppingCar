@@ -180,5 +180,19 @@ namespace ShoppingCar.Controllers
 
             return RedirectToAction("MemberInfo");
         }
+
+        public ActionResult DeleteMember()
+        {
+            string ID = User.Identity.Name;
+            var Member = db.Members.Where(m => m.UserId == ID).FirstOrDefault();
+
+            db.Members.Remove(Member);
+            db.SaveChanges();
+
+            //導向登出Action
+            return RedirectToAction("Logout");
+        }
+
+
     }
 }
