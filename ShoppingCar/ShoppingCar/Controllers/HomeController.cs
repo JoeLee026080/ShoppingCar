@@ -18,19 +18,25 @@ namespace ShoppingCar.Controllers
         public ActionResult Index()
         {
             //查詢全部商品
-            var Products = db.Products.OrderByDescending(m => m.Id).ToList();
-            if (Products == null)
-            {
+            var products = db.Products.OrderByDescending(m => m.Id).ToList();
+            if (products == null)
                 return HttpNotFound();
-            }
-            return View(Products);
+            
+            return View(products);
         }
 
         public ActionResult KeyWordSearch(string key)
         {
+            if (key == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            
             //商品關鍵字搜尋
             var products = db.Products.Where(m => m.Name.Contains(key))
                 .OrderByDescending(m => m.Id).ToList();
+
+            if (products == null)
+                return HttpNotFound();
+            
             return View("Index", products);
         }
 
