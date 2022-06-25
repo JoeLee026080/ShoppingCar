@@ -177,7 +177,8 @@ namespace ShoppingCar.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditMember(Member NewMemberInfo)
+        [ValidateAntiForgeryToken]
+        public ActionResult EditMember([Bind(Include = "Name,Email")] Member NewMemberInfo)
         {
             //編輯會員資料
             string ID = User.Identity.Name;
