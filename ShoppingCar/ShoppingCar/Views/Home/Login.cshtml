@@ -5,6 +5,7 @@
 <h2>登入頁面</h2>
 
 <form action="@Url.Action("Login")" method="post">
+    @Html.AntiForgeryToken()
     <div class="form-horizontal">
         <hr />
         <div class="form-group">

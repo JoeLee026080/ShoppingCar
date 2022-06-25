@@ -87,7 +87,8 @@ namespace ShoppingCar.Controllers
 
 
         [HttpPost]
-        public ActionResult Register(Member NewMember)
+        [ValidateAntiForgeryToken]
+        public ActionResult Register([Bind(Include = "Id,UserId,Pwd,Name,Email")] Member NewMember)
         {
             //若模型沒有通過驗證則顯示目前的View
             if (ModelState.IsValid == false)
