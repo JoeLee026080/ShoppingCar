@@ -17,6 +17,9 @@ namespace ShoppingCar.Controllers
             //查詢全部商品
             var products = db.Products.OrderByDescending(m => m.Id).ToList();
 
+            if (products == null)
+                return HttpNotFound();
+
             //使用_LayoutMember
             return View("..\\Home\\Index", "_LayoutMember", products);
         }
