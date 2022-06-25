@@ -214,7 +214,8 @@ namespace ShoppingCar.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangePassword(Member NewMemberInfo)
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword([Bind(Include = "Pwd")] Member NewMemberInfo)
         {
             //變更密碼
             string ID = User.Identity.Name;
