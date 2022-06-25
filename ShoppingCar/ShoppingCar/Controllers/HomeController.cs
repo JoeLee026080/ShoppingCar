@@ -49,6 +49,9 @@ namespace ShoppingCar.Controllers
         [HttpPost]
         public ActionResult Login(string UserId, string Pwd)
         {
+            if (UserId == null || Pwd == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
             //查詢會員
             var member = db.Members.Where(m => m.UserId == UserId && m.Pwd == Pwd).FirstOrDefault();
 
