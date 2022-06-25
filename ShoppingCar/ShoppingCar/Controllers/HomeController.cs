@@ -47,6 +47,7 @@ namespace ShoppingCar.Controllers
 
         
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(string UserId, string Pwd)
         {
             if (UserId == null || Pwd == null)
@@ -77,8 +78,6 @@ namespace ShoppingCar.Controllers
                 ViewBag.Massage = "帳號或密碼錯誤";
                 return View();
             }
-
-
         }
 
         public ActionResult Register()
