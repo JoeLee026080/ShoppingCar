@@ -117,6 +117,9 @@ namespace ShoppingCar.Controllers
         [HttpPost]
         public ActionResult PlaceOrder(string fReceiver, string fEmail, string fAddress)
         {
+            if (fReceiver == null || fEmail == null || fAddress == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
             string UserId = User.Identity.Name;
             //訂單與明細，用GUID來產生關聯
             string guid = Guid.NewGuid().ToString();
