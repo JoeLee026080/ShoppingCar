@@ -157,5 +157,28 @@ namespace ShoppingCar.Controllers
             return View(member);
 
         }
+
+        public ActionResult EditMember()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EditMember(Member NewMemberInfo)
+        {
+            //編輯會員資料
+            string ID = User.Identity.Name;
+            var Member = db.Members.Where(m => m.UserId == ID).FirstOrDefault();
+
+            Member.Name = NewMemberInfo.Name;
+            Member.Email = NewMemberInfo.Email;
+
+            //改名後重設歡迎詞
+            Session["Welcome"] = Member.Name + "歡迎光臨";
+
+            db.SaveChanges();
+
+            return RedirectToAction("MemberInfo");
+        }
     }
 }

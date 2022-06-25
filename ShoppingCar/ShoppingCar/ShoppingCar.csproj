@@ -190,6 +190,7 @@
     <Content Include="Views\Member\OrderList.cshtml" />
     <Content Include="Views\Member\OrderDetail.cshtml" />
     <Content Include="Views\Member\MemberInfo.cshtml" />
+    <Content Include="Views\Member\EditMember.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
