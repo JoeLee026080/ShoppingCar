@@ -10,7 +10,7 @@ using ShoppingCar.Models;
 
 namespace ShoppingCar.Controllers
 {
-    public class ProductsController : Controller
+    public class AdminController : Controller
     {
         private ShoppingCarContext db = new ShoppingCarContext();
 
