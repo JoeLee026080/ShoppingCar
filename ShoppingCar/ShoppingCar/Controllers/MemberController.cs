@@ -183,6 +183,7 @@ namespace ShoppingCar.Controllers
 
         public ActionResult DeleteMember()
         {
+            //刪除帳號
             string ID = User.Identity.Name;
             var Member = db.Members.Where(m => m.UserId == ID).FirstOrDefault();
 
@@ -193,6 +194,23 @@ namespace ShoppingCar.Controllers
             return RedirectToAction("Logout");
         }
 
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public ActionResult ChangePassword(Member NewMemberInfo)
+        {
+            //變更密碼
+            string ID = User.Identity.Name;
+            var Member = db.Members.Where(m => m.UserId == ID).FirstOrDefault();
+
+            Member.Pwd = NewMemberInfo.Pwd;
+
+            db.SaveChanges();
+
+            return RedirectToAction("MemberInfo");
+        }
     }
 }
