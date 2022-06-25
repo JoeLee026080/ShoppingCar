@@ -36,6 +36,9 @@ namespace ShoppingCar.Controllers
             //查詢購物車清單(未核准狀態的明細)
             var OrderDetails = db.OrderDetails.Where(m => m.UserId == UserId && m.IsApproved == "NO").ToList();
 
+            if (OrderDetails == null)
+                return HttpNotFound();
+
             return View(OrderDetails);
         }
 
