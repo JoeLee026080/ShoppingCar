@@ -78,6 +78,23 @@ namespace ShoppingCar.Controllers
             }
         }
 
+        public ActionResult DeleteProduct(string PId)
+        {
+            if (PId == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            //找出資料
+            var product = db.Products.Where(m => m.PId == PId).FirstOrDefault();
+            if (product == null)
+                return HttpNotFound();
+
+            db.Products.Remove(product);
+            db.SaveChanges();
+
+            //刪除
+            return RedirectToAction("Index");
+        }
+
         // GET: Products/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -109,31 +126,7 @@ namespace ShoppingCar.Controllers
             return View(product);
         }
 
-        // GET: Products/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Product product = db.Products.Find(id);
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-            return View(product);
-        }
 
-        // POST: Products/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Product product = db.Products.Find(id);
-            db.Products.Remove(product);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
         protected override void Dispose(bool disposing)
         {
