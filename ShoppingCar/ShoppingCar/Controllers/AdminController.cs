@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using ShoppingCar.Models;
 using System.IO;
+using System.Web.Security;
 
 namespace ShoppingCar.Controllers
 {
@@ -124,12 +125,13 @@ namespace ShoppingCar.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(product);
-
-
         }
-
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("index", "Home");
+        }
 
         protected override void Dispose(bool disposing)
         {
