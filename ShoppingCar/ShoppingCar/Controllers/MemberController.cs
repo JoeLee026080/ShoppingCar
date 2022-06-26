@@ -227,5 +227,14 @@ namespace ShoppingCar.Controllers
 
             return RedirectToAction("MemberInfo");
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }
