@@ -95,37 +95,40 @@ namespace ShoppingCar.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Products/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult EdiProducts(string PId)
         {
-            if (id == null)
-            {
+            if (PId == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Product product = db.Products.Find(id);
+
+            //取出指定一個商品
+            var product = db.Products.Where(m => m.PId == PId).FirstOrDefault();
             if (product == null)
-            {
                 return HttpNotFound();
-            }
+
+            //找出資料
             return View(product);
         }
 
-        // POST: Products/Edit/5
-        // 若要免於大量指派 (overposting) 攻擊，請啟用您要繫結的特定屬性，
-        // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,PId,Name,Price,Img")] Product product)
+        public ActionResult EdiProducts([Bind(Include = "PId,Name,Price")] Product product)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(product).State = EntityState.Modified;
+                //查詢此商品
+                var current_product = db.Products.Where(m => m.PId == product.PId).FirstOrDefault();
+
+                current_product.Name = product.Name;
+                current_product.Price = product.Price;
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(product);
-        }
 
+            return View(product);
+
+
+        }
 
 
         protected override void Dispose(bool disposing)
